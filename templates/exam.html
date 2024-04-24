@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ exam.topic }}
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {% for question in questions %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ question.question_text }}</h5>
+            <div class="form-group">
+                {% if question.choices %}
+                {% for choice in question.choices.split('|') %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ question.id }}" id="choice{{ loop.index }}" value="{{ choice }}">
+                    <label class="form-check-label" for="choice{{ loop.index }}">
+                        {{ choice }}
+                    </label>
+                </div>
+                {% endfor %}
+                {% else %}
+                <input type="text" class="form-control" name="{{ question.id }}">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <input type="submit" class="btn btn-primary" value="Submit">
+</form>
+{% endblock %}
